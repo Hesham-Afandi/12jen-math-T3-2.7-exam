@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📐 رياضيات 12 عام - رسوم الدوال المثلثية وتحويلاتها</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+        .formula { font-family: 'Times New Roman', serif; font-style: italic; direction: ltr; display: inline-block; }
+        .timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        @media print { .no-print { display: none !important; } }
+        .success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+        .grade-excellent { background: #dcfce7; color: #166534; }
+        .grade-good { background: #fef3c7; color: #92400e; }
+        .grade-pass { background: #dbeafe; color: #1e40af; }
+        .grade-fail { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4 md:p-8 min-h-screen">
+
+    <!-- Timer -->
+    <div id="timer-container" class="max-w-4xl mx-auto mb-4 text-center no-print">
+        <div class="bg-white p-4 rounded-xl shadow-md inline-block border-2 border-teal-100">
+            <span class="text-gray-600 ml-2">⏱️ الوقت المتبقي:</span>
+            <span id="timer" class="text-2xl font-bold text-teal-600 font-mono">45:00</span>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="max-w-4xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+        <button onclick="toggleAnswers()" class="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2 rounded-lg font-medium transition shadow cursor-pointer">
+            👁️ إظهار / إخفاء الإجابات
+        </button>
+        <button onclick="window.print()" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition shadow cursor-pointer">
+            🖨️ طباعة / PDF
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-md mb-8 border-r-4 border-teal-600">
+        <div class="text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">📐 رياضيات الصف الثاني عشر عام</h1>
+            <h2 class="text-lg text-teal-600 font-semibold">رسوم الدوال المثلثية وتحويلاتها</h2>
+            <p class="text-sm text-gray-600 mt-2">Graphs Properties, Asymptotes & Transformations (a, b)</p>
+        </div>
+        <div class="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+            <span>📅 التاريخ: <input type="text" class="border-b border-gray-400 bg-transparent w-28 text-center"></span>
+            <span>👤 الاسم: <input type="text" id="studentName" class="border-b border-gray-400 bg-transparent w-32 text-center" placeholder="أدخل الاسم"></span>
+            <span>🏫 الشعبة: <input type="text" id="studentClass" class="border-b border-gray-400 bg-transparent w-28 text-center" placeholder="الفصل"></span>
+            <span>⏱️ المدة: 45 دقيقة</span>
+            <span>📊 المجموع: 100 درجة</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto space-y-8">
+
+        <!-- Section 1: Basic Graph Properties -->
+        <section class="bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-4 text-teal-700">🔹 الجزء الأول: خصائص الرسوم الأساسية للدوال الست</h2>
+            <ol id="section1-list" class="space-y-4 text-sm">
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-1">
+                    <strong>1.</strong> الدورة (Period) لدالة <span class="formula">y = tan θ</span> تساوي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q1" value="a" class="ml-2"> أ) <span class="formula">360°</span> أو <span class="formula">2π</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q1" value="b" class="ml-2"> ب) <span class="formula">180°</span> أو <span class="formula">π</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q1" value="c" class="ml-2"> ج) <span class="formula">90°</span> أو <span class="formula">π/2</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q1" value="d" class="ml-2"> د) <span class="formula">270°</span> أو <span class="formula">3π/2</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) دورة tan و cot هي 180° أو π</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-2">
+                    <strong>2.</strong> مدى دالة <span class="formula">y = sec θ</span> هو:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q2" value="a" class="ml-2"> أ) <span class="formula">[-1, 1]</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q2" value="b" class="ml-2"> ب) جميع الأعداد الحقيقية</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q2" value="c" class="ml-2"> ج) <span class="formula">(-∞, -1] ∪ [1, ∞)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q2" value="d" class="ml-2"> د) <span class="formula">[0, ∞)</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) قيم sec و csc لا تقع بين -1 و 1</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-3">
+                    <strong>3.</strong> نقطة البداية لمنحنى <span class="formula">y = cos θ</span> عند <span class="formula">θ = 0°</span> هي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q3" value="a" class="ml-2"> أ) <span class="formula">(0, 0)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q3" value="b" class="ml-2"> ب) <span class="formula">(0, 1)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q3" value="c" class="ml-2"> ج) <span class="formula">(0, -1)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q3" value="d" class="ml-2"> د) <span class="formula">(1, 0)</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) cos يبدأ من القمة عند (0, 1)</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-4">
+                    <strong>4.</strong> مجال دالة <span class="formula">y = sin θ</span> هو:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q4" value="a" class="ml-2"> أ) <span class="formula">[-1, 1]</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q4" value="b" class="ml-2"> ب) جميع الأعداد الحقيقية ما عدا <span class="formula">90° + 180°n</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q4" value="c" class="ml-2"> ج) جميع الأعداد الحقيقية</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q4" value="d" class="ml-2"> د) <span class="formula">[0, 360°]</span> فقط</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) sin و cos معرفتان لجميع الأعداد الحقيقية</div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Section 2: Asymptotes -->
+        <section class="bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-4 text-teal-700">🔹 الجزء الثاني: الخطوط المقاربة (Asymptotes)</h2>
+            <ol id="section2-list" class="space-y-4 text-sm">
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-5">
+                    <strong>5.</strong> الخطوط المقاربة هي خطوط رأسية يقترب منها الرسم البياني ولكن:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q5" value="a" class="ml-2"> أ) يلمسها عند نقاط محددة</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q5" value="b" class="ml-2"> ب) يقطعها عند نقطة الأصل</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q5" value="c" class="ml-2"> ج) لا يلمسها أبداً</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q5" value="d" class="ml-2"> د) يتقاطع معها عند القيم العظمى</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) الرسم يقترب من الخط المقارب لكن لا يلمسه أبداً</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-6">
+                    <strong>6.</strong> دوال <span class="formula">tan θ</span> و <span class="formula">sec θ</span> لها خطوط مقاربة عندما يكون:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q6" value="a" class="ml-2"> أ) <span class="formula">sin θ = 0</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q6" value="b" class="ml-2"> ب) <span class="formula">cos θ = 0</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q6" value="c" class="ml-2"> ج) <span class="formula">tan θ = 1</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q6" value="d" class="ml-2"> د) <span class="formula">cos θ = 1</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) لأن tan و sec تحتويان على cos في المقام</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-7">
+                    <strong>7.</strong> دوال <span class="formula">cot θ</span> و <span class="formula">csc θ</span> لها خطوط مقاربة عند الزوايا:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q7" value="a" class="ml-2"> أ) <span class="formula">90°, 270°, ...</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q7" value="b" class="ml-2"> ب) <span class="formula">45°, 135°, ...</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q7" value="c" class="ml-2"> ج) <span class="formula">0°, 180°, 360°, ...</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q7" value="d" class="ml-2"> د) لا توجد خطوط مقاربة</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) لأن cot و csc تحتويان على sin في المقام (sin=0 عند 0°, 180°, ...)</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-8">
+                    <strong>8.</strong> أي الدوال التالية ليس لها خطوط مقاربة؟<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q8" value="a" class="ml-2"> أ) <span class="formula">tan θ</span> و <span class="formula">sec θ</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q8" value="b" class="ml-2"> ب) <span class="formula">cot θ</span> و <span class="formula">csc θ</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q8" value="c" class="ml-2"> ج) <span class="formula">sin θ</span> و <span class="formula">cos θ</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q8" value="d" class="ml-2"> د) جميع الدوال لها خطوط مقاربة</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) sin و cos رسومهما متصلة ومستمرة بدون خطوط مقاربة</div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Section 3: Transformations (a and b) -->
+        <section class="bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-4 text-teal-700">🔹 الجزء الثالث: تحويلات الدوال المثلثية (a و b)</h2>
+            <ol id="section3-list" class="space-y-4 text-sm">
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-9">
+                    <strong>9.</strong> في الدالة <span class="formula">y = a sin(bθ)</span>، المطال (Amplitude) يساوي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q9" value="a" class="ml-2"> أ) <span class="formula">b</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q9" value="b" class="ml-2"> ب) <span class="formula">|a|</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q9" value="c" class="ml-2"> ج) <span class="formula">360°/b</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q9" value="d" class="ml-2"> د) <span class="formula">a²</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) المطال = القيمة المطلقة للمعامل a</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-10">
+                    <strong>10.</strong> في الدالة <span class="formula">y = a cos(bθ)</span>، الدورة (Period) تُحسب بالقانون:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q10" value="a" class="ml-2"> أ) <span class="formula">360° × b</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q10" value="b" class="ml-2"> ب) <span class="formula">b / 360°</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q10" value="c" class="ml-2"> ج) <span class="formula">360° / |b|</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q10" value="d" class="ml-2"> د) <span class="formula">2π × b</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) Period = 360° / |b| أو 2π / |b|</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-11">
+                    <strong>11.</strong> للدالة <span class="formula">y = sin(10πt)</span>، المطال والدورة على الترتيب هما:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q11" value="a" class="ml-2"> أ) المطال = 10π ، الدورة = 1</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q11" value="b" class="ml-2"> ب) المطال = 1 ، الدورة = 0.2</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q11" value="c" class="ml-2"> ج) المطال = 1 ، الدورة = 10π</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q11" value="d" class="ml-2"> د) المطال = 10 ، الدورة = 0.2</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) المطال = |1| = 1 ، الدورة = 2π/10π = 0.2</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-12">
+                    <strong>12.</strong> إذا كانت الدورة = 2 ثانية، فإن قيمة b في المعادلة <span class="formula">y = a sin(bt)</span> تساوي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q12" value="a" class="ml-2"> أ) <span class="formula">2π</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q12" value="b" class="ml-2"> ب) <span class="formula">π</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q12" value="c" class="ml-2"> ج) <span class="formula">π/2</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q12" value="d" class="ml-2"> د) <span class="formula">2</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) b = 2π / Period = 2π / 2 = π</div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Section 4: Reading Graphs & Golden Tips -->
+        <section class="bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-4 text-teal-700">🔹 الجزء الرابع: قراءة الرسم البياني ونصائح ذهبية</h2>
+            <ol id="section4-list" class="space-y-4 text-sm">
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-13">
+                    <strong>13.</strong> عند قراءة الرسم البياني لموجة، المطال (Amplitude) يُقاس كالتالي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q13" value="a" class="ml-2"> أ) المسافة الأفقية بين قمتين متتاليتين</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q13" value="b" class="ml-2"> ب) المسافة من المحور الأفقي (خط المنتصف) إلى أعلى قمة</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q13" value="c" class="ml-2"> ج) المسافة من القمة إلى القاع</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q13" value="d" class="ml-2"> د) عدد الدورات في الثانية</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) المطال = المسافة من خط المنتصف إلى القمة</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-14">
+                    <strong>14.</strong> الفرق الرئيسي بين منحنى sin ومنحنى cos في الرسم هو:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q14" value="a" class="ml-2"> أ) sin يبدأ من القمة، cos يبدأ من الصفر</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q14" value="b" class="ml-2"> ب) sin يبدأ من الصفر ويصعد، cos يبدأ من القمة ثم ينزل</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q14" value="c" class="ml-2"> ج) لا يوجد فرق في الشكل</label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q14" value="d" class="ml-2"> د) sin له خطوط مقاربة، cos ليس له</label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) sin يبدأ من (0,0) ويصعد، cos يبدأ من (0,1) وينزل</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-15">
+                    <strong>15.</strong> إذا أُعطي رسم بياني بمطال = 4 ودورة = 2 ثانية، فإن المعادلة الصحيحة هي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q15" value="a" class="ml-2"> أ) <span class="formula">y = 4 sin(2πt)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q15" value="b" class="ml-2"> ب) <span class="formula">y = 4 sin(πt)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q15" value="c" class="ml-2"> ج) <span class="formula">y = 2 sin(4πt)</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q15" value="d" class="ml-2"> د) <span class="formula">y = 4 sin(t/2)</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ب) a=4, b=2π/2=π → y = 4 sin(πt)</div>
+                </li>
+                <li class="border-r-4 border-teal-500 pr-4 py-2" id="q-16">
+                    <strong>16.</strong> لإيجاد قيمة b من الدورة (Period) لكتابة المعادلة، نستخدم القانون العكسي:<br>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q16" value="a" class="ml-2"> أ) <span class="formula">b = Period / 360°</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q16" value="b" class="ml-2"> ب) <span class="formula">b = 360° × Period</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q16" value="c" class="ml-2"> ج) <span class="formula">b = 360° / Period</span></label>
+                    <label class="mr-4 cursor-pointer block mt-1"><input type="radio" name="q16" value="d" class="ml-2"> د) <span class="formula">b = Period² / 360°</span></label>
+                    <div class="answer-box text-green-700 mt-2 font-medium hidden">✅ الإجابة: ج) b = 360° / Period أو 2π / Period</div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Submit Button -->
+        <div class="text-center no-print pb-8">
+            <button onclick="gradeExam()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-lg px-10 py-4 rounded-xl font-bold shadow-xl transition transform hover:scale-105 cursor-pointer">
+                📝 تسليم وتصحيح الامتحان
+            </button>
+        </div>
+    </main>
+
+    <!-- Results Panel -->
+    <div id="results-panel" class="max-w-4xl mx-auto mt-8 bg-white p-8 rounded-2xl shadow-2xl border-t-4 border-emerald-500 hidden no-print">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">📊 نتائج الامتحان</h2>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-blue-50 p-4 rounded-xl text-center"><p>اسم الطالب</p><p id="res-name" class="font-bold text-xl text-teal-700">-</p></div>
+            <div class="bg-purple-50 p-4 rounded-xl text-center"><p>التاريخ</p><p id="res-date" class="font-bold text-xl text-purple-700">-</p></div>
+            <div class="bg-emerald-50 p-4 rounded-xl text-center"><p>المجموع</p><p id="res-total" class="font-bold text-3xl text-emerald-600">0 / 100</p></div>
+        </div>
+
+        <div class="text-center mb-6">
+            <span id="success-badge" class="success-badge grade-excellent">ممتاز - 100%</span>
+            <p id="success-percent" class="text-4xl font-bold text-emerald-600 mt-2">100%</p>
+            <p class="text-sm text-gray-500">نسبة النجاح</p>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl mb-6">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">📈 تفصيل الأداء حسب القسم:</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700">خصائص الرسوم الأساسية</span>
+                    <span id="sec1-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700">الخطوط المقاربة</span>
+                    <span id="sec2-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700">تحويلات الدوال (a و b)</span>
+                    <span id="sec3-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-700">قراءة الرسم ونصائح ذهبية</span>
+                    <span id="sec4-score" class="font-bold text-teal-600">0/4</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-6">
+            <button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white text-lg px-8 py-3 rounded-xl font-bold shadow-xl transition transform hover:scale-105 cursor-pointer">
+                📧 إرسال النتائج للمعلم
+            </button>
+            <p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+        </div>
+
+        <div class="flex gap-3 justify-center">
+            <button onclick="window.print()" class="bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">🖨️ طباعة النتائج</button>
+        </div>
+    </div>
+
+    <footer class="max-w-4xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+        © الرياضيات للصف الثاني عشر عام | رسوم الدوال المثلثية وتحويلاتها | Mr. Mohammed Hesham
+    </footer>
+
+    <script>
+        const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+        const SERVICE_ID = "service_w15m64i";
+        const TEMPLATE_ID = "template_5b0u2tq";
+        const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+        (function(){ emailjs.init(PUBLIC_KEY); })();
+
+        let timeRemaining = 2700;
+        let timerInterval;
+
+        function startTimer() {
+            document.getElementById('timer-container').style.display = 'block';
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                const timerEl = document.getElementById('timer');
+                timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+                if (timeRemaining <= 300) timerEl.classList.add('timer-warning');
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("انتهى الوقت! سيتم تسليم الامتحان تلقائياً.");
+                    gradeExam();
+                }
+            }, 1000);
+        }
+
+        function toggleAnswers() {
+            document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden'));
+        }
+
+        function gradeExam() {
+            let correctCount = 0;
+            const correctAnswers = [
+                'b','c','b','c',  // Q1-4: Basic Properties
+                'c','b','c','c',  // Q5-8: Asymptotes
+                'b','c','b','b',  // Q9-12: Transformations
+                'b','b','b','c'   // Q13-16: Reading Graphs & Tips
+            ];
+
+            let sec1 = 0, sec2 = 0, sec3 = 0, sec4 = 0;
+
+            for(let i=1; i<=16; i++){
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const li = document.getElementById(`q-${i}`);
+                const isCorrect = selected && selected.value === correctAnswers[i-1];
+                
+                if (isCorrect) {
+                    correctCount++;
+                    li.classList.add('correct');
+                    li.classList.remove('incorrect');
+                    if (i <= 4) sec1++;
+                    else if (i <= 8) sec2++;
+                    else if (i <= 12) sec3++;
+                    else sec4++;
+                } else {
+                    li.classList.add('incorrect');
+                    li.classList.remove('correct');
+                }
+            }
+
+            const score = (correctCount / 16) * 100;
+            const successRate = Math.round(score);
+            
+            document.getElementById('res-total').textContent = `${Math.round(score)} / 100`;
+            document.getElementById('res-name').textContent = document.getElementById('studentName').value || 'طالب';
+            document.getElementById('res-date').textContent = new Date().toLocaleDateString('ar-AE');
+            
+            document.getElementById('sec1-score').textContent = `${sec1}/4`;
+            document.getElementById('sec2-score').textContent = `${sec2}/4`;
+            document.getElementById('sec3-score').textContent = `${sec3}/4`;
+            document.getElementById('sec4-score').textContent = `${sec4}/4`;
+            
+            const badge = document.getElementById('success-badge');
+            const percent = document.getElementById('success-percent');
+            percent.textContent = `${successRate}%`;
+            
+            if(successRate >= 90) { badge.textContent = 'ممتاز'; badge.className = 'success-badge grade-excellent'; }
+            else if(successRate >= 75) { badge.textContent = 'جيد جداً'; badge.className = 'success-badge grade-good'; }
+            else if(successRate >= 50) { badge.textContent = 'جيد'; badge.className = 'success-badge grade-pass'; }
+            else { badge.textContent = 'يحتاج تحسين'; badge.className = 'success-badge grade-fail'; }
+            
+            document.getElementById('results-panel').classList.remove('hidden');
+            document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('sendEmailBtn').classList.remove('hidden');
+        }
+
+        function sendResultsToEmail() {
+            const btn = document.getElementById('sendEmailBtn');
+            const status = document.getElementById('emailStatus');
+            btn.disabled = true;
+            btn.textContent = '⏳ جاري الإرسال...';
+
+            const name = document.getElementById('studentName').value || 'N/A';
+            const studentClass = document.getElementById('studentClass').value || 'غير محدد';
+            const date = document.querySelector('input[type="text"]').value || new Date().toLocaleDateString('ar-AE');
+            const score = document.getElementById('res-total').textContent;
+            const successRate = document.getElementById('success-percent').textContent;
+            const sec1 = document.getElementById('sec1-score').textContent;
+            const sec2 = document.getElementById('sec2-score').textContent;
+            const sec3 = document.getElementById('sec3-score').textContent;
+            const sec4 = document.getElementById('sec4-score').textContent;
+
+            let answersHTML = `<div dir="rtl" style="font-family: 'Cairo', sans-serif;">
+                <h3 style="color:#0d9488;">📊 تفصيل الأداء - امتحان رسوم الدوال المثلثية وتحويلاتها:</h3>
+                <p><strong>الطالب:</strong> ${name} | <strong>الشعبة:</strong> ${studentClass}</p>
+                <ul>
+                    <li>خصائص الرسوم الأساسية: ${sec1}</li>
+                    <li>الخطوط المقاربة: ${sec2}</li>
+                    <li>تحويلات الدوال (a و b): ${sec3}</li>
+                    <li>قراءة الرسم ونصائح ذهبية: ${sec4}</li>
+                </ul>
+                <table style="border:1px solid #e5e7eb; border-collapse:collapse; width:100%; font-size:14px; direction: rtl;">
+                <tr style="background:#0d9488; color:white;"><th style="border:1px solid #e5e7eb; padding:8px;">السؤال</th><th style="border:1px solid #e5e7eb; padding:8px;">الإجابة المختارة</th><th style="border:1px solid #e5e7eb; padding:8px;">الحالة</th></tr>`;
+            
+            const correctAnswers = ['b','c','b','c','c','b','c','c','b','c','b','b','b','b','b','c'];
+            
+            for(let i=1; i<=16; i++) {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                const isCorrect = sel && sel.value === correctAnswers[i-1];
+                answersHTML += `<tr><td style="border:1px solid #e5e7eb; padding:6px;">${i}</td><td style="border:1px solid #e5e7eb; padding:6px;">${sel ? sel.value : '-'}</td><td style="border:1px solid #e5e7eb; padding:6px; color:${isCorrect ? 'green' : 'red'}">${isCorrect ? '✅ صحيح' : '❌ خطأ'}</td></tr>`;
+            }
+            answersHTML += '</table></div>';
+
+            const templateParams = {
+                to_email: TARGET_EMAIL,
+                student_name: name,
+                exam_date: date,
+                total_score: score,
+                success_rate: successRate,
+                answers_table: answersHTML
+            };
+
+            emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+                .then(() => {
+                    status.textContent = '✅ تم الإرسال بنجاح! تحقق من Gmail.';
+                    status.style.color = '#059669';
+                    btn.textContent = '✓ تم الإرسال';
+                })
+                .catch(err => {
+                    status.textContent = '❌ فشل الإرسال. تحقق من الإعدادات.';
+                    status.style.color = '#dc2626';
+                    btn.disabled = false;
+                    btn.textContent = '📧 إعادة المحاولة';
+                    console.error('EmailJS Error:', err);
+                });
+        }
+
+        window.addEventListener('DOMContentLoaded', startTimer);
+    </script>
+</body>
+</html>
